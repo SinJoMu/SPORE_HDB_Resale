@@ -76,9 +76,9 @@ def load_model():
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_explainer_location, f_checkpoint1)
     
-#    model = joblib.load(f_checkpoint)
-#    explainer = joblib.load(f_checkpoint1)
-#    return model, explainer
+    model = f_checkpoint
+    explainer = f_checkpoint1
+    return model, explainer
 
 rfr, explainer = load_model()
 
