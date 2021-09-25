@@ -8,7 +8,6 @@ Created on Wed Sep 22 19:57:44 2021
 import streamlit as st 
 import numpy as np
 import pandas as pd
-import utils_functions.py
 from utils_functions import find_postal, find_nearest, dist_from_location, map, map_flats_year, _max_width_
 import streamlit.components.v1 as components
 import pydeck as pdk
