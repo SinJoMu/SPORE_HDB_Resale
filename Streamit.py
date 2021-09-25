@@ -13,7 +13,7 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-import joblib as jb
+from sklearn.externals import joblib
 
 _max_width_()
 
@@ -76,8 +76,8 @@ def load_model():
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_explainer_location, f_checkpoint1)
     
-    model = jb.load(f_checkpoint)
-    explainer = jb.load(f_checkpoint1)
+    model = joblib.load(f_checkpoint)
+    explainer = joblib.load(f_checkpoint1)
     return model, explainer
 
 rfr, explainer = load_model()
