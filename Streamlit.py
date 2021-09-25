@@ -14,7 +14,6 @@ import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
 
-import sklearn.external.joblib as extjoblib
 import joblib
 
 
