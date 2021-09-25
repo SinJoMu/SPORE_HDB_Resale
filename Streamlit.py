@@ -22,7 +22,7 @@ st.title('Interactive App to Predict Singapore HDB Resale Prices')
 st.text(" ")
 st.text(" ")
 st.text(" ")
-st.image('./Pictures/HDB.jpg', width=900)
+st.image('Pictures/HDB.jpg', width=900)
 
 ## CREATE USER INPUT SIDEBAR
 st.sidebar.header('Your Interest Area')
@@ -341,7 +341,3 @@ with st.beta_expander("More info"):
 The machine learning model that is used for this resale price prediction is a **random forest model**. It was trained on
                 HDB resale prices data from 2015 to 2019. The data was split into a 9:1 train test ratio, and validated using 10-fold cross validation, 
                 achieving a **test Rsquare of 0.96** and **mean absolute error of ~$20,000**.""")
-
-## TO DO
-# Expander for price comparison
-# HDB Price through the years map -- https://pydeck.gl/gallery/column_layer.html
