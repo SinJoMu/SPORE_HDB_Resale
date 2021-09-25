@@ -5,6 +5,7 @@ Created on Wed Sep 22 19:57:44 2021
 @author: hvtee
 """
 
+import joblib
 import streamlit as st 
 import numpy as np
 import pandas as pd
@@ -13,8 +14,6 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-
-import joblib
 
 
 _max_width_()
