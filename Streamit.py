@@ -5,7 +5,7 @@ Created on Wed Sep 22 19:57:44 2021
 @author: hvtee
 """
 
-import streamlit as st # v0.69
+import streamlit as st 
 import numpy as np
 import pandas as pd
 #import utils_functions.py
@@ -13,11 +13,11 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-import joblib
+import joblib as jb
 
 _max_width_()
 
-st.title('Interactive App to Visualize and Predict Singapore HDB Resale Prices')
+st.title('Interactive App to Predict Singapore HDB Resale Prices')
 
 st.text(" ")
 st.text(" ")
@@ -25,24 +25,24 @@ st.text(" ")
 #st.image('./Pictures/HDB.jpg', width=900)
 
 ## CREATE USER INPUT SIDEBAR
-st.sidebar.header('User Input HDB Features')
+st.sidebar.header('Your Interest Area')
 
 flat_address = st.sidebar.text_input("Flat Address or Postal Code", '988B BUANGKOK GREEN') # flat address
     
-town = st.sidebar.selectbox('Town', list(['ANG MO KIO', 'BEDOK', 'BISHAN', 'BUKIT BATOK', 'BUKIT MERAH',
-                                          'BUKIT TIMAH', 'CENTRAL AREA', 'CHOA CHU KANG', 'CLEMENTI',
-                                          'GEYLANG', 'HOUGANG', 'JURONG EAST', 'JURONG WEST',
-                                          'KALLANG/WHAMPOA', 'MARINE PARADE', 'QUEENSTOWN', 'SENGKANG',
-                                          'SERANGOON', 'TAMPINES', 'TOA PAYOH', 'WOODLANDS', 'YISHUN',
-                                          'LIM CHU KANG', 'SEMBAWANG', 'BUKIT PANJANG', 'PASIR RIS','PUNGGOL']),
-                            index=10)
+town = st.sidebar.selectbox('Town', list(['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
+                                          'Bukit Panjang', 'Bukit Timah', 'Central Area', 'Choa Chu Kang',
+                                          'Clementi', 'Geylang', 'Hougang', 'Jurong East', 'Jurong West',
+                                          'Kallang/Whampoa', 'Marine Parade', 'Pasir Ris', 'Punggol',
+                                          'Queenstown', 'Sembawang', 'Sengkang', 'Serangoon', 'Tampines',
+                                          'Toa Payoh', 'Woodlands', 'Yishun']), index=10)
+
 flat_model = st.sidebar.selectbox('Flat Model', list(['Model A', 'Improved', 'Premium Apartment', 'Standard',
                                                            'New Generation', 'Maisonette', 'Apartment', 'Simplified',
                                                            'Model A2', 'DBSS', 'Terrace', 'Adjoined flat', 'Multi Generation',
                                                            '2-room', 'Executive Maisonette', 'Type S1S2']), index=0)
 flat_type = st.sidebar.selectbox('Flat Type', list(['2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM', 'EXECUTIVE']),
                                  index=2)
-floor_area = st.sidebar.slider("Floor Area (sqm)", 34,280,93) # floor area
+floor_area = st.sidebar.slider("Floor Area (sqm)", 34,280,101) # floor area
 storey = st.sidebar.selectbox('Storey', list(['01 TO 03','04 TO 06','07 TO 09','10 TO 12','13 TO 15',
                                               '16 TO 18','19 TO 21','22 TO 24','25 TO 27','28 TO 30',
                                               '31 TO 33','34 TO 36','37 TO 39','40 TO 42','43 TO 45',
@@ -50,8 +50,8 @@ storey = st.sidebar.selectbox('Storey', list(['01 TO 03','04 TO 06','07 TO 09','
 lease_commence_date = st.sidebar.selectbox('Lease Commencement Date', list(reversed(range(1966, 2017))), index=1)
 
 
-with st.sidebar.beta_expander("Comparison"):
-    st.write('Comparison Feature Coming Soon')
+#with st.sidebar.beta_expander("Comparison"):
+   # st.write('Comparison Feature Coming Soon')
     #st.slider("2nd Floor Area (sqm)", 34,280,93)
 
 
@@ -76,32 +76,12 @@ def load_model():
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_explainer_location, f_checkpoint1)
     
-    model = joblib.load(f_checkpoint)
-    explainer = joblib.load(f_checkpoint1)
+    model = jb.load(f_checkpoint)
+    explainer = jb.load(f_checkpoint1)
     return model, explainer
 
 rfr, explainer = load_model()
 
-## MAP OF PRICES THROUGHOUT THE YEARS ========================================================================
-#st.write("**Median Price of HDB Resale Flats Throughout the Years**")
-#year_selected = st.slider("Select Year of Resale", 1990, 2020, 2019)
-
-# Load flats price by year
-#@st.cache
-# def load_data_select_year(filepath, year_selected):
-#     data = pd.read_csv(filepath)
-#     return data[data['year'] == year_selected]
-    
-
-#flats = load_data_select_year('./Data/all_resale_prices_by_year.csv', year_selected)
-
-#map_flats_year(flats, 1.3487, 103.8245, 11.2)  
-
-# st.text(" ")
-# st.text(" ")
-# st.text(" ")
-
-#===============================================================================================================
 
 ## Get flat coordinates
 coord = find_postal(flat_address)
@@ -124,7 +104,7 @@ school_coord = load_data('Data/school_coordinates_clean.csv')
 hawker_coord = load_data('Data/hawker_coordinates_clean.csv')
 shop_coord = load_data('Data/shoppingmall_coordinates_clean.csv')
 park_coord = load_data('Data/parks_coordinates_clean.csv')
-mrt_coord = load_data('Data/MRT_coordinates.csv')[['STN_NAME','Latitude','Longitude']]
+mrt_coord = load_data('Data/MRT_Coordinates.csv')[['STN_NAME','Latitude','Longitude']]
 
 ## Get nearest and number of amenities in 2km radius
 # Supermarkets
