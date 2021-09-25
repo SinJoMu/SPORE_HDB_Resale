@@ -13,7 +13,8 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-from scikit import joblib
+import sklearn.externals
+import joblib
 
 _max_width_()
 
