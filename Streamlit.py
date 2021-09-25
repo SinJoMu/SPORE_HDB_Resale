@@ -12,7 +12,7 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-#import joblib
+import joblib
 
 
 _max_width_()
@@ -22,7 +22,7 @@ st.title('Interactive App to Predict Singapore HDB Resale Prices')
 st.text(" ")
 st.text(" ")
 st.text(" ")
-st.image('Pictures/HDB.jpg', width=900)
+st.image('./Pictures/HDB.jpg', width=900)
 
 ## CREATE USER INPUT SIDEBAR
 st.sidebar.header('Your Interest Area')
@@ -47,12 +47,7 @@ storey = st.sidebar.selectbox('Storey', list(['01 TO 03','04 TO 06','07 TO 09','
                                               '16 TO 18','19 TO 21','22 TO 24','25 TO 27','28 TO 30',
                                               '31 TO 33','34 TO 36','37 TO 39','40 TO 42','43 TO 45',
                                               '46 TO 48','49 TO 51']), index=3)
-lease_commence_date = st.sidebar.selectbox('Lease Commencement Date', list(reversed(range(1966, 2017))), index=1)
-
-
-with st.sidebar.beta_expander("Comparison"):
-    st.write('Comparison Feature Coming Soon')
-    st.slider("2nd Floor Area (sqm)", 34,280,93)
+lease_commence_date = st.sidebar.selectbox('Lease Commencement Date', list(reversed(range(1966, 2019))), index=1)
 
 
 ## LOAD TRAINED RANDOM FOREST MODEL
@@ -76,8 +71,8 @@ def load_model():
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_explainer_location, f_checkpoint1)
     
-    model = f_checkpoint
-    explainer = f_checkpoint1
+    model = joblib.load(f_checkpoint)
+    explainer = joblib.load(f_checkpoint1)
     return model, explainer
 
 rfr, explainer = load_model()
