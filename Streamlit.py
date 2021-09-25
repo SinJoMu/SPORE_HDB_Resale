@@ -8,12 +8,12 @@ Created on Wed Sep 22 19:57:44 2021
 import streamlit as st 
 import numpy as np
 import pandas as pd
-#import utils_functions.py
+import utils_functions.py
 from utils_functions import find_postal, find_nearest, dist_from_location, map, map_flats_year, _max_width_
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-#import joblib
+import joblib
 
 
 _max_width_()
@@ -23,12 +23,12 @@ st.title('Interactive App to Predict Singapore HDB Resale Prices')
 st.text(" ")
 st.text(" ")
 st.text(" ")
-#st.image('./Pictures/HDB.jpg', width=900)
+st.image('./Pictures/HDB.jpg', width=900)
 
 ## CREATE USER INPUT SIDEBAR
 st.sidebar.header('Your Interest Area')
 
-flat_address = st.sidebar.text_input("Flat Address or Postal Code", '988B BUANGKOK GREEN') # flat address
+flat_address = st.sidebar.text_input("Flat Address or Postal Code", '628A Woodlands Ring Road') # flat address
     
 town = st.sidebar.selectbox('Town', list(['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
                                           'Bukit Panjang', 'Bukit Timah', 'Central Area', 'Choa Chu Kang',
@@ -51,9 +51,9 @@ storey = st.sidebar.selectbox('Storey', list(['01 TO 03','04 TO 06','07 TO 09','
 lease_commence_date = st.sidebar.selectbox('Lease Commencement Date', list(reversed(range(1966, 2017))), index=1)
 
 
-#with st.sidebar.beta_expander("Comparison"):
-   # st.write('Comparison Feature Coming Soon')
-    #st.slider("2nd Floor Area (sqm)", 34,280,93)
+with st.sidebar.beta_expander("Comparison"):
+    st.write('Comparison Feature Coming Soon')
+    st.slider("2nd Floor Area (sqm)", 34,280,93)
 
 
 ## LOAD TRAINED RANDOM FOREST MODEL
