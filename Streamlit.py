@@ -51,32 +51,24 @@ lease_commence_date = st.sidebar.selectbox('Lease Commencement Date', list(rever
 
 
 ## LOAD TRAINED RANDOM FOREST MODEL
-cloud_model_location = '1PkTZnHK_K4LBTSkAbCfgtDsk-K9S8rLe' # hosted on GD
-cloud_explainer_location = '1tj1yodBjRY2sgijAnSa-MGL7D0psxMeO' # hosted on GD
+cloud_model_location = '1H_hPvURH6hNYetnjA5_RkzeyQXRcZ4tF' # hosted on GD
 
-@st.cache(allow_output_mutation=True) 
+@st.cache(allow_output_mutation=True)
 def load_model():
 
     save_dest = Path('model')
     save_dest.mkdir(exist_ok=True)  
-    f_checkpoint = Path("model/rf_compressed.pkl")
-    f_checkpoint1 = Path("model/shap_explainer.pkl")
-    # download from GD if model or explainer not present
+    f_checkpoint = Path("model/utils_functions")
+    # download from GD if model not present
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_model_location, f_checkpoint)
-    if not f_checkpoint1.exists():
-        with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-            from GD_download import download_file_from_google_drive
-            download_file_from_google_drive(cloud_explainer_location, f_checkpoint1)
     
     model = joblib.load(f_checkpoint)
-    explainer = joblib.load(f_checkpoint1)
-    return model, explainer
+    return model
 
-rfr, explainer = load_model()
-
+rfr = load_model()
 
 ## Get flat coordinates
 coord = find_postal(flat_address)
@@ -274,14 +266,14 @@ import shap
 shap.initjs()
 
 #explainer = shap.TreeExplainer(rfr)
-shap_values = explainer.shap_values(flat1)
+#shap_values = explainer.shap_values(flat1)
 # def st_shap(plot, height=None):
 #     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
 #     components.html(shap_html, height=height, width=900)
 
 #st_shap(shap.force_plot(explainer.expected_value[0], shap_values[0], flat1))
-fig = shap.force_plot(explainer.expected_value[0], shap_values[0], flat1, matplotlib=True, show=False)
-st.pyplot(fig) # work around using matplotlib, fig is not that sharp
+#fig = shap.force_plot(explainer.expected_value[0], shap_values[0], flat1, matplotlib=True, show=False)
+#st.pyplot(fig) # work around using matplotlib, fig is not that sharp
 with st.beta_expander("See explanation for understanding SHAP values"):
     st.write("""
              """)
