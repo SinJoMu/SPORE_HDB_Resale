@@ -12,7 +12,7 @@ from utils_functions import find_postal, find_nearest, dist_from_location, map, 
 import streamlit.components.v1 as components
 import pydeck as pdk
 from pathlib import Path
-import joblib
+#import joblib
 
 
 _max_width_()
@@ -58,15 +58,15 @@ def load_model():
 
     save_dest = Path('model')
     save_dest.mkdir(exist_ok=True)  
-    f_checkpoint = Path("model/utils_functions")
+    f_checkpoint = Path("model/rf_compressed.pkl")
     # download from GD if model not present
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_model_location, f_checkpoint)
-    
-    model = joblib.load(f_checkpoint)
-    return model
+     
+#    model = joblib.load(f_checkpoint)
+#    return model
 
 rfr = load_model()
 
